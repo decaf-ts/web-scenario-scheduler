@@ -1,0 +1,9 @@
+./**/*
+!./*.json
+!src/*
+!tests/*
+!workdocs/*
+!./.npmrc
+!eslint.config.js
+!.prettierrc
+!jest.config.cjs
