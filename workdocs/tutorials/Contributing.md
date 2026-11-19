@@ -1,64 +1,31 @@
-## Contributing
+# Contributing
 
-[fork]: https://github.com/decaf-ts/ts-workspace/fork
-[pr]: https://github.com/decaf-ts/ts-workspace/compare
-[code-of-conduct]: CODE_OF_CONDUCT.md
-[developers-guide]: ./For%20Developers.md
-
-Hi there! I'm thrilled that you'd like to contribute to this project. Your help is essential for keeping it great.
-
-Contributions to this project are
-[released](https://help.github.com/articles/github-terms-of-service/#6-contributions-under-repository-license)
-to the public under the [project's open source license](../../LICENSE.md).
-
-Please note that this project is released with a [Contributor Code of
-Conduct][code-of-conduct]. By participating in this project you agree
-to abide by its terms.
-
-### Bootstrapping the project
+Use Node.js 24 and npm 10+.
 
 ```bash
-git clone https://github.com/decaf-ts/ts-workspace.git
-cd ts-workspace
-npm install
-npm run build
+git clone https://github.com/decaf-ts/web-scenario-scheduler.git
+cd web-scenario-scheduler
+npm ci
+npm run prepare-it-tests
+npm run prepare-release
 ```
 
-### Running the tests
+The current candidate needs companion package releases before a fresh registry
+install can succeed. Follow the [release prerequisites](https://github.com/decaf-ts/web-scenario-scheduler/blob/master/workdocs/tutorials/For%20Developers.md#release-prerequisites)
+in the developer guide.
 
-```bash
-npm run test:all
-```
+Automated tests use local, headless browser fixtures and dummy credentials.
+No MyLuz account, desktop tray, CAPTCHA, or confirmation code is needed. Manual
+live checks are separate; never add real credentials or browser profiles to a
+contribution.
 
-_Note_: We don't have any useful tests yet, contributions are welcome!
+Keep changes focused and add meaningful regression coverage for changed behavior.
+Update the maintained files under `workdocs/`; `npm run docs` regenerates README
+and API documentation. Open a [pull request](https://github.com/decaf-ts/web-scenario-scheduler/compare)
+and require successful CI before merging. Contributions use the repository's
+MIT license.
 
-## Submitting a pull request
-
-0. [Fork][fork] and clone the repository
-1. Configure and install the dependencies: `npm install`
-2. Make sure the tests pass on your machine: `npm run test:all`
-3. Create a new branch: `git checkout -b my-branch-name`. Relate the branch to an issue if possible
-4. Make your change, add tests, add documentation, and make sure the tests still pass
-5. Make sure to build, test, and refresh docs before pushing: `npm run prepare-pr`
-6. Push to your fork and [submit a pull request][pr]
-7. Pat your self on the back and wait for your pull request to be reviewed and merged.
-
-Here are a few things you can do that will increase the likelihood of your pull request being accepted:
-
-- Add lots of tests for new features.
-- Keep your change as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
-- Write a [good commit message](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
-
-## Cutting a new release
-
-The acceptance of a pull request will trigger an automatic release by the CI.
-
-## Resources
-
-- [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
-- [Using Pull Requests](https://help.github.com/articles/about-pull-requests/)
-- [GitHub Help](https://help.github.com)
-
-## Developers Guide
-
-Please follow read the [developers guide] before making any changes.
+Merging a pull request can trigger the configured release workflows. Check the
+companion package versions, clean installation, and release prerequisites before
+merging a release candidate. See the developer and documentation guides for the
+supported public entry points and validation commands.

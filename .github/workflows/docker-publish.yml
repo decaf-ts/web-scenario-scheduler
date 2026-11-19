@@ -49,12 +49,16 @@ on:
         required: false
         default: true
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   docker-base:
     name: Docker base image
     uses: decaf-ts/reusable-actions/.github/workflows/docker-publish.yml@master
     with:
-      image: decaf-ts/ts-workspace
+      image: decaf-ts/scheduler
       dockerfile: Dockerfile
       context: .
       tag-prefix: "base-"

@@ -1,6 +1,4 @@
-name: 'Test Coverage'
-
-# Thin caller of decaf-ts/reusable-actions/.github/workflows/jest-coverage.yaml.
+name: Test Coverage
 
 on:
   pull_request:
@@ -8,7 +6,40 @@ on:
     branches: [ master, main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: scheduler-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   coverage:
-    uses: decaf-ts/reusable-actions/.github/workflows/jest-coverage.yaml@master
-    secrets: inherit
+    runs-on: ubuntu-latest
+    env:
+      CI: "true"
+    steps:
+      - uses: decaf-ts/reusable-actions/actions/node-setup@master
+        with:
+          node-version: "24"
+      - name: Install headless fixture-test browser
+        run: npm run prepare-it-tests
+      - name: Lint and typecheck
+        run: npm run lint && npx tsc --noEmit
+      - name: Audit dependencies
+        run: npm run audit:dependencies
+      - name: Build production artifacts
+        run: npm run build:prod
+      - name: Test CLI, distributions and browser fixtures with coverage
+        run: npm run coverage
+      - name: Build maintained documentation
+        run: npm run docs
+      - name: Verify public exports and private-file exclusions
+        run: npm run check:package
+      - name: Upload test and coverage reports
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: scheduler-validation
+          path: workdocs/reports/
+          if-no-files-found: ignore

@@ -1,0 +1,13 @@
+{
+  "name": "@decaf-ts/scheduler",
+  "entryPoints": ["src/index.ts", "src/cli/index.ts", "src/scenarios/luz/index.ts"],
+  "tsconfig": "tsconfig.json",
+  "readme": "README.md",
+  "projectDocuments": ["workdocs/tutorials/*.md"],
+  "excludeInternal": true,
+  "navigationLinks": {
+    "Repository": "https://github.com/decaf-ts/web-scenario-scheduler",
+    "Test results": "workdocs/reports/html/test-report.html",
+    "Coverage": "workdocs/reports/coverage/"
+  }
+}

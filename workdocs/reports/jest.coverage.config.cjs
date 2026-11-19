@@ -19,9 +19,9 @@ module.exports = {
       {
         publicPath: "./workdocs/reports/html",
         filename: "test-report.html",
-        openReport: true,
+        openReport: false,
         expand: true,
-        pageTitle: "ts-workspace Test Report",
+        pageTitle: "scheduler Test Report",
         stripSkippedTest: true,
         darkTheme: true,
         enableMergeData: true,

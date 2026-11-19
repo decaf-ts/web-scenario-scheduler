@@ -1,6 +1,6 @@
 {
-  "name": "@decaf-ts/ts-workspace",
-  "version": "3.10.25",
+  "name": "@decaf-ts/scheduler",
+  "version": "0.1.0",
   "license": "MIT",
   "exports": {
     ".": "./src/index.ts"

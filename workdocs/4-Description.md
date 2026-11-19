@@ -1,6 +1,8 @@
 ### Description
 
-No one needs the hassle of setting up new repos every time.
-
-Now you can create new repositories from this template and enjoy having everything set up for you.
-
+`@decaf-ts/scheduler` runs file-based JavaScript scenarios and ships the MyLuz
+appointment and exam scheduler. It provides
+`decaf scheduler myluz`, the standalone `decaf-scheduler myluz` executable,
+and composable command/configuration APIs. Browser actions use
+`@decaf-ts/for-testing/ui`; native trays and notifications come directly from
+`@decaf-ts/for-os`. No runtime dependency on `@decaf-ts/with-ai` is required.

@@ -20,3 +20,10 @@
 /.confluence-token
 /node_modules
 !.gitkeep
+/myluz.config.json
+.env*
+!.env.example
+*.env
+/.playwright-mcp/
+
+/.npmrc.publish

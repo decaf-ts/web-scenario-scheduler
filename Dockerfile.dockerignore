@@ -1,0 +1,15 @@
+**/.git
+**/.npmrc
+**/node_modules
+**/target
+**/.env*
+**/.npmtoken
+**/.token
+**/.dockertoken
+**/myluz.config.json
+**/.playwright-mcp
+
+**/.npmrc.*
+**/*.env
+**/browser-profile
+**/.myluz-assistant

@@ -1,4 +1,4 @@
-[![Banner](./workdocs/assets/Banner.png)](https://decaf-ts.github.io/ts-workspace/)
-## Typescript Template
+# Scheduler
 
-This repository is meant to provide an enterprise template for any standard Typescript project
+MyLuz appointment and exam scheduling with a visible browser, native desktop
+notifications, and explicit appointment approval.

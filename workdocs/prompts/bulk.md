@@ -94,7 +94,7 @@ refer to the module it belongs with @memberOf this the `@memberOf module:<module
 never omit or change any code
 if the element is already documented, only restructure, correct, or add to the documentation. NEVER remove existing information
 
-if the file is `src/index.ts`: Generate a JSDoc comment block for a TypeScript module file using better-docs formatting:
+if the file is `src/index.ts`: Generate a JSDoc comment block for a TypeScript module file using TypeDoc-compatible JSDoc formatting:
 - Add @module with the name of the module
 - Add @description and @summary
 - Do NOT document individual exports

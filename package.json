@@ -1,13 +1,53 @@
 {
-  "name": "@decaf-ts/ts-workspace",
-  "version": "3.11.0",
-  "description": "template for ts projects",
+  "name": "@decaf-ts/scheduler",
+  "version": "0.1.0",
+  "description": "User-assisted MyLuz appointment and exam scheduler with a visible browser, system tray, and desktop notifications.",
   "type": "module",
   "exports": {
-    "types": "./lib/types/index.d.ts",
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.cjs",
-    "default": "./lib/esm/index.js"
+    ".": {
+      "import": {
+        "types": "./lib/types/index.d.mts",
+        "default": "./lib/esm/index.js"
+      },
+      "require": {
+        "types": "./lib/types/index.d.cts",
+        "default": "./lib/cjs/index.cjs"
+      },
+      "default": "./lib/esm/index.js"
+    },
+    "./cli": {
+      "import": {
+        "types": "./lib/types/cli/index.d.mts",
+        "default": "./lib/esm/cli/index.js"
+      },
+      "require": {
+        "types": "./lib/types/cli/index.d.cts",
+        "default": "./lib/cjs/cli/index.cjs"
+      },
+      "default": "./lib/esm/cli/index.js"
+    },
+    "./scenarios/myluz": {
+      "import": {
+        "types": "./lib/types/scenarios/luz/index.d.mts",
+        "default": "./lib/esm/scenarios/luz/index.js"
+      },
+      "require": {
+        "types": "./lib/types/scenarios/luz/index.d.cts",
+        "default": "./lib/cjs/scenarios/luz/index.cjs"
+      },
+      "default": "./lib/esm/scenarios/luz/index.js"
+    },
+    "./scenarios/luz": {
+      "import": {
+        "types": "./lib/types/scenarios/luz/index.d.mts",
+        "default": "./lib/esm/scenarios/luz/index.js"
+      },
+      "require": {
+        "types": "./lib/types/scenarios/luz/index.d.cts",
+        "default": "./lib/cjs/scenarios/luz/index.cjs"
+      },
+      "default": "./lib/esm/scenarios/luz/index.js"
+    }
   },
   "main": "./lib/cjs/index.cjs",
   "module": "./lib/esm/index.js",
@@ -22,20 +62,21 @@
     "set-git-auth": "decaf utils credentials git-helper",
     "flash-forward": "npx npm-check-updates -u && npm run do-install",
     "reset": "rm -rf * && git checkout . && git pull && npm run do-install",
-    "build": "build-scripts --dev",
-    "build:prod": "build-scripts --prod",
-    "test": "npm run test:all",
-    "test:unit": "jest --testPathPatterns=\"/tests/unit\" --passWithNoTests --detectOpenHandles",
-    "test:integration": "jest --testPathPatterns=\"/tests/(integration)\" --passWithNoTests --detectOpenHandles",
-    "test:all": "jest --testPathPatterns=\"/tests\" --passWithNoTests --detectOpenHandles",
-    "test:dist": "TEST_TARGET=lib npm run test:all && TEST_TARGET=dist npm run test:all",
+    "build": "build-scripts --dev --commands --buildMode build && node scripts/bundle.mjs --dev",
+    "build:prod": "build-scripts --prod --commands --buildMode build && node scripts/bundle.mjs",
+    "test": "npm run build:prod && npm run test:all",
+    "test:unit": "jest --testPathPatterns=\"/tests/unit\" --detectOpenHandles",
+    "test:integration": "jest --testPathPatterns=\"/tests/(integration)\" --detectOpenHandles",
+    "test:all": "npm run test:cli && npm run test:dist && jest --testPathPatterns=\"/tests\" --detectOpenHandles",
+    "test:dist": "node --test tests/runtime/distribution.test.mjs",
     "test:circular": "dpdm -T --no-warning --no-tree ./src/index.ts",
-    "prepare-it-tests": "echo \"prepare-it-tests: no infra to boot\"",
+    "prepare-it-tests": "playwright install --with-deps chromium",
     "coverage": "rimraf ./workdocs/reports/data/*.json && npm run test:all -- --coverage --config=./workdocs/reports/jest.coverage.config.cjs",
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
-    "prepare-pr": "npm run lint-fix && npm run build:prod && npm run coverage && npm run docs",
-    "prepare-release": "npm run lint-fix && npm run build:prod && npm run coverage && npm run test:dist && npm run docs",
+    "prepare-pr": "npm run lint && npm run build:prod && npm run coverage && npm run docs && npm run check:package",
+    "prepare-release": "npm run lint && tsc --noEmit && npm run audit:dependencies && npm run build:prod && npm run coverage && npm run docs && npm run check:package",
+    "audit:dependencies": "npm audit --audit-level=high",
     "repo:init": "codex exec \"$(cat ./.codex/prompts/repo-setup.md)\nbase_path is `./`, initialize the repository\" -s workspace-write",
     "repo:setup": "codex exec \"$(cat ./.codex/prompts/repo-setup.md)\nbase_path is ./\" -s workspace-write",
     "repo:doc": "codex exec \"$(cat ./.codex/prompts/doc.md) $(cat ./.codex/prompts/bulk-docs.md)\nbase_path is ./\" -s workspace-write",
@@ -44,17 +85,25 @@
     "repo:pr": "npm run repo:doc && npm run repo:tests && npm run repo:readme",
     "drawings": "for FILE in workdocs/drawings/*.drawio; do echo \"converting $FILE to image...\" && docker run --rm -v $(pwd):/data rlespinasse/drawio-export --format png $FILE; done && cp -rf workdocs/drawings/export/* workdocs/resources/",
     "uml": "cd workdocs/uml && for FILE in ./*.puml; do docker run --rm -v $(pwd):/work -w /work miy4/plantuml -DPLANTUML_LIMIT_SIZE=8192 -tpng $FILE; done && cd ../.. && cp -fr workdocs/uml/*.png workdocs/resources/",
-    "docs": "npx rimraf ./docs && mkdir docs && build-scripts --docs",
+    "docs": "node scripts/docs.mjs",
     "publish-docs": "docker run -it --rm --user $(id -u):$(id -g) -v \"$(pwd)/workdocs/confluence:/content\" -e ATLASSIAN_API_TOKEN=\"$(DECAF_BANNER=false decaf utils credentials get --name confluence --logLevel error)\" ghcr.io/markdown-confluence/publish:latest",
     "docker:login": "docker login ghcr.io -u \"$(DECAF_BANNER=false decaf utils credentials get --name docker-user --legacy-file .dockeruser --logLevel error)\" -p \"$(DECAF_BANNER=false decaf utils credentials get --name docker --legacy-file .dockertoken --logLevel error)\"",
     "docker:build": "npm run docker:build-base",
-    "docker:build-base": "NPM_TOKEN=\"$(DECAF_BANNER=false decaf utils credentials get --name npm --logLevel error)\" DOCKER_BUILDKIT=1 docker build --secret id=TOKEN,env=NPM_TOKEN -t ghcr.io/decaf-ts/ts-workspace:base-$(cat package.json | jq -r '.version') -t ghcr.io/decaf-ts/ts-workspace:base-${VERSION:-latest} -f ./Dockerfile .",
+    "docker:build-base": "docker build -t ghcr.io/decaf-ts/scheduler:base-$(node -p \"require('./package.json').version\") -t ghcr.io/decaf-ts/scheduler:base-${VERSION:-latest} -f Dockerfile .",
     "docker:publish": "npm run docker:publish-base",
-    "docker:publish-base": "docker push ghcr.io/decaf-ts/ts-workspace:base-$(cat package.json | jq -r '.version') && docker push ghcr.io/decaf-ts/ts-workspace:base-${VERSION:-latest}"
+    "docker:publish-base": "docker push ghcr.io/decaf-ts/scheduler:base-$(node -p \"require('./package.json').version\") && docker push ghcr.io/decaf-ts/scheduler:base-${VERSION:-latest}",
+    "start": "node lib/cjs/bin/cli.cjs",
+    "myluz:start": "node lib/cjs/bin/cli.cjs myluz",
+    "browser:install": "playwright install chromium",
+    "os:install": "node node_modules/@decaf-ts/for-os/scripts/for-os-install.mjs --require-build",
+    "tray:integration": "npm run build && node scripts/tray-integration.mjs",
+    "prepack": "npm run build:prod && npm run check:package",
+    "test:cli": "node --test tests/runtime/scenario-cli.test.mjs",
+    "check:package": "node scripts/check-package.mjs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/decaf-ts/ts-workspace.git"
+    "url": "git+https://github.com/decaf-ts/web-scenario-scheduler.git"
   },
   "engines": {
     "node": ">=20.0.0",
@@ -62,38 +111,30 @@
   },
   "files": [
     "lib",
-    "dist"
+    "dist",
+    "myluz.config.example.json",
+    "scripts/tray-integration.mjs"
   ],
   "keywords": [
-    "plantuml",
-    "mermaid",
-    "uml",
-    "drawio",
-    "mddocs",
-    "md",
-    "jsdoc",
-    "doc",
-    "docs",
-    "documentation",
-    "test",
-    "reports",
-    "confluence",
-    "ci/cd",
-    "ci",
-    "cd",
-    "template",
-    "typescript",
-    "ts"
+    "decaf-ts",
+    "scheduler",
+    "myluz",
+    "appointments",
+    "cli",
+    "system-tray"
   ],
   "author": "Tiago Venceslau",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/decaf-ts/ts-workspace/issues"
+    "url": "https://github.com/decaf-ts/web-scenario-scheduler/issues"
   },
-  "homepage": "https://github.com/decaf-ts/ts-workspace#readme",
+  "homepage": "https://github.com/decaf-ts/web-scenario-scheduler#readme",
   "devDependencies": {
-    "@decaf-ts/for-testing": "^1.3.7",
-    "@decaf-ts/utils": "^2.0.6"
+    "@decaf-ts/utils": "2.3.0",
+    "@rollup/plugin-terser": "^1.0.2",
+    "@types/jest": "^30.0.0",
+    "rollup": "^4.67.5",
+    "typedoc": "0.28.20"
   },
   "overrides": {
     "open": "^11.0.0",
@@ -108,6 +149,34 @@
     },
     "typescript-eslint": {
       "minimatch": "^11.0.5"
-    }
+    },
+    "typedoc": {
+      "minimatch": "^10.2.5"
+    },
+    "@decaf-ts/cli": "$@decaf-ts/cli",
+    "@decaf-ts/core": "0.37.0",
+    "@decaf-ts/crypto": "0.18.0",
+    "@decaf-ts/db-decorators": "0.21.0",
+    "@decaf-ts/decoration": "0.20.2",
+    "@decaf-ts/decorator-validation": "1.25.0",
+    "@decaf-ts/for-testing": "$@decaf-ts/for-testing",
+    "@decaf-ts/injectable-decorators": "1.22.0",
+    "@decaf-ts/logging": "0.30.3",
+    "@decaf-ts/transactional-decorators": "0.15.0",
+    "@decaf-ts/utils": "$@decaf-ts/utils",
+    "@decaf-ts/for-os": "$@decaf-ts/for-os"
+  },
+  "bin": {
+    "decaf-scheduler": "./lib/cjs/bin/cli.cjs"
+  },
+  "dependencies": {
+    "@decaf-ts/cli": "0.14.1",
+    "@decaf-ts/for-os": "0.3.0",
+    "@decaf-ts/for-testing": "1.3.8",
+    "commander": "^14.0.3",
+    "playwright": "1.65.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

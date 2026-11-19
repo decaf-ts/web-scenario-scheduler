@@ -14,6 +14,11 @@ on:
     - cron: '41 0 * * 4'
   workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: read
+  security-events: write
+
 jobs:
   analyze:
     uses: decaf-ts/reusable-actions/.github/workflows/codeql-analysis.yml@master

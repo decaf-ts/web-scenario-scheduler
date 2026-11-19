@@ -1,0 +1,92 @@
+{
+  "url": "https://myluz.hospitaldaluz.pt/MYLUZ/",
+  "usernameEnv": "MYLUZ_USERNAME",
+  "passwordEnv": "MYLUZ_PASSWORD",
+  "bookingKind": "appointment",
+  "profileDir": "~/.myluz-assistant/browser-profile",
+  "intervalMs": 300000,
+  "keepAlive": {
+    "enabled": true,
+    "intervalMs": 60000,
+    "pages": [
+      {
+        "name": "Início",
+        "selector": "a:has-text(\"Início\")"
+      },
+      {
+        "name": "Minha Saúde",
+        "selector": "a:has-text(\"Minha Saúde\")"
+      },
+      {
+        "name": "Histórico",
+        "selector": "a:has-text(\"Histórico\")"
+      },
+      {
+        "name": "Faturas e pagamentos",
+        "selector": "a:has-text(\"Faturas e pagamentos\")"
+      },
+      {
+        "name": "Profissionais de Saúde",
+        "selector": "a:has-text(\"Profissionais de Saúde\")"
+      },
+      {
+        "name": "Unidades",
+        "selector": "a:has-text(\"Unidades\")"
+      },
+      {
+        "name": "Especialidades",
+        "selector": "a:has-text(\"Especialidades\")"
+      },
+      {
+        "name": "Guia de Saúde",
+        "selector": "a:has-text(\"Guia de Saúde\")"
+      },
+      {
+        "name": "Gestão de conta",
+        "selector": "a:has-text(\"Gestão de conta\")"
+      }
+    ]
+  },
+  "search": {
+    "doctor": "Eduardo Carpinteiro",
+    "hospital": "Hospital da Luz Lisboa",
+    "specialty": "Ortopedia",
+    "consultation": "Consulta de Ortopedia - Ombro e Cotovelo",
+    "insurance": "Multicare",
+    "fromDate": "2026-12-01",
+    "toDate": "2026-12-31"
+  },
+  "selectors": {
+    "username": "input[id$=\"wtInput_Email\"]",
+    "password": "input[id$=\"wtInput_PasswordVal\"]",
+    "submitLogin": "input[id$=\"wtIniciarSessao2\"]",
+    "confirmationScreen": "REPLACE_WITH_MFA_SCREEN_SELECTOR",
+    "authenticated": "a[id*=\"wtMenuItem\"]",
+    "search": "text=Marcar",
+    "backToSearch": "input[type=\"submit\"][value=\"Voltar\"]",
+    "examSearch": "REPLACE_WITH_EXAM_BOOKING_ROUTE_SELECTOR",
+    "doctor": "select[id$=\"wtCmbMedico\"]",
+    "exam": "REPLACE_WITH_EXAM_FILTER_SELECTOR",
+    "hospital": "select[id$=\"wtCmbUnidade\"]",
+    "specialty": "select[id$=\"wtCmbEspecialidade\"]",
+    "consultation": "select[id$=\"wtCmbProduto\"]",
+    "subSpecialty": "REPLACE_WITH_SUBSPECIALTY_FILTER_SELECTOR",
+    "insurance": "select[id$=\"wtCmbAcordo\"]",
+    "fromDate": "REPLACE_WITH_START_DATE_FILTER_SELECTOR",
+    "toDate": "REPLACE_WITH_END_DATE_FILTER_SELECTOR",
+    "fromTime": "REPLACE_WITH_START_TIME_FILTER_SELECTOR",
+    "toTime": "REPLACE_WITH_END_TIME_FILTER_SELECTOR",
+    "submitSearch": "input[type=\"submit\"][value=\"Continuar\"]",
+    "searchResults": "[id$=\"wtSchedule\"]",
+    "resultCard": "[id$=\"wtLrSchedule\"] > span > div[id$=\"_wt33\"]",
+    "resultAvailable": ".card-appointment-time",
+    "resultDescription": ".card-right",
+    "selectedDate": ".pika-table td.is-selected button.pika-day",
+    "bookButton": "REPLACE_WITH_FINAL_BOOKING_ACTION_WITHIN_CARD_SELECTOR",
+    "bookingConfirmation": "REPLACE_WITH_CONFIRMED_BOOKING_SELECTOR",
+    "loggedOut": "input[placeholder=\"O seu e-mail\"]",
+    "blocked": "REPLACE_WITH_CAPTCHA_OR_ACCESS_BLOCK_SELECTOR"
+  },
+  "notificationTimeoutMs": 60000,
+  "browserVisibility": "when-needed"
+}

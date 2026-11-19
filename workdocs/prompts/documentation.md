@@ -3,8 +3,8 @@
 ### Root index file /ts-doc-root
 - scopes: file, workspace
 ```
-You're a senior TypeScript developer writing JSDoc documentation for a class to be used with better-docs. Given the module code:
-Generate a JSDoc comment block for a TypeScript module file using better-docs formatting:
+You're a senior TypeScript developer writing JSDoc documentation for a class to be used with TypeDoc. Given the module code:
+Generate a JSDoc comment block for a TypeScript module file using TypeDoc-compatible JSDoc formatting:
 - Add @module with the name of the module
 - Add @description and @summary
 - Do NOT document individual exports
@@ -132,7 +132,7 @@ if the element is already documented, only restructure, correct, or add to the d
 ### Scripts /ts-doc-scripts
 
 ```
-You're a senior TypeScript developer writing JSDoc documentation for a command line script to be used with better-docs:
+You're a senior TypeScript developer writing JSDoc documentation for a command line script to be used with TypeDoc:
 document the target script, always including the @description tag with a short description of its purpose, and a@summary tag with a more detailed one.
 Include descriptions for the various arguments it acceppts
 Include detailed @description for all functions.
