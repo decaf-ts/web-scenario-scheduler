@@ -1,6 +1,6 @@
 {
   "name": "@decaf-ts/scheduler",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "User-assisted MyLuz appointment and exam scheduler with a visible browser, system tray, and desktop notifications.",
   "type": "module",
   "exports": {
